@@ -20,11 +20,7 @@ export const CHECK_VALUES = {
 export const toYen = (n: number) => `${n.toLocaleString('ja-JP')}円`;
 
 export const normalizePayment = (raw: string): PaymentKey => {
-  const s = (raw || '').toLowerCase();
-  if (s.includes('現金') || s.includes('cash')) return '現金';
-  if (s.includes('カード') || s.includes('credit') || s.includes('visa') || s.includes('master') || s.includes('jcb') || s.includes('amex')) return 'カード';
-  if (s.includes('アプリ') || s.includes('paypay') || s.includes('line pay') || s.includes('楽天pay') || s.includes('d払い')) return 'アプリ決済';
-  if (s.includes('電子') || s.includes('交通系') || s.includes('id') || s.includes('quicpay') || s.includes('waon') || s.includes('nanaco')) return '電子マネー';
+
   return 'その他';
 };
 
