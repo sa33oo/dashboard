@@ -59,6 +59,7 @@ export default function Dashboard() {
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
     const rows = await parseSheet(file);
 
     if (type === 'sales') {
@@ -163,11 +164,14 @@ export default function Dashboard() {
       const p = petMap.get(s.petId);
       const sp = p?.species || '不明';
       const br = p?.breed || '不明';
+
       bySpecies[sp] = (bySpecies[sp] || 0) + s.amount;
       byBreed[br] = (byBreed[br] || 0) + s.amount;
+
       const age = p?.age;
       const bucket =
         age == null ? '不明' : age <= 2 ? '0-2歳' : age <= 7 ? '3-7歳' : age <= 12 ? '8-12歳' : '13歳以上';
+
       byAge[bucket] += s.amount;
     });
 
@@ -207,10 +211,12 @@ export default function Dashboard() {
           売上Excel
           <input className="mt-2 block" type="file" accept=".xlsx" onChange={(e) => handleUpload(e, 'sales')} />
         </label>
+
         <label>
           診療項目履歴Excel
           <input className="mt-2 block" type="file" accept=".xlsx" onChange={(e) => handleUpload(e, 'items')} />
         </label>
+
         <label>
           飼い主・ペットExcel
           <input className="mt-2 block" type="file" accept=".xlsx" onChange={(e) => handleUpload(e, 'pets')} />
@@ -245,7 +251,6 @@ export default function Dashboard() {
         </div>
       </section>
 
-
       <section className="rounded-xl bg-white p-4 shadow">
         <h2 className="mb-2 font-semibold">日別売上</h2>
         <div className="h-64">
@@ -271,6 +276,7 @@ export default function Dashboard() {
             </div>
           ))}
         </div>
+
         <div className="rounded-xl bg-white p-4 shadow">
           <h2 className="mb-2 font-semibold">診療カテゴリ</h2>
           {agg.byCategory.map((r) => (
@@ -311,9 +317,12 @@ export default function Dashboard() {
 
       <section className="rounded-xl bg-white p-4 shadow">
         <h2 className="mb-2 font-semibold">検算画面</h2>
+
         <p className={agg.total === CHECK_VALUES.total ? 'text-green-600' : 'text-red-600'}>
-          売上合計: 実績 {toYen(agg.total)} / 正解 {toYen(CHECK_VALUES.total)} {agg.total === CHECK_VALUES.total ? '一致' : '不一致'}
+          売上合計: 実績 {toYen(agg.total)} / 正解 {toYen(CHECK_VALUES.total)}{' '}
+          {agg.total === CHECK_VALUES.total ? '一致' : '不一致'}
         </p>
+
         {checks.map((c) => (
           <p key={c.k} className={c.ok ? 'text-green-600' : 'text-red-600'}>
             {c.k}: 実績 {toYen(c.actual)} / 正解 {toYen(c.expected)} {c.ok ? '一致' : '不一致'}
