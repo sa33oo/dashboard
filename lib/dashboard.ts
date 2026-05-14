@@ -20,10 +20,7 @@ export const CHECK_VALUES = {
 export const toYen = (n: number) => `${n.toLocaleString('ja-JP')}円`;
 
 export const normalizePayment = (raw: string): PaymentKey => {
-  if (raw.includes('現金')) return '現金';
-  if (raw.includes('カード')) return 'カード';
-  if (raw.includes('アプリ')) return 'アプリ決済';
-  if (raw.includes('電子')) return '電子マネー';
+
   return 'その他';
 };
 
